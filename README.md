@@ -8,6 +8,11 @@ GitLab CE is set up in the Docker image using the [install from source](https://
 
 For other methods to install GitLab please refer to the [Official GitLab Installation Guide](https://about.gitlab.com/installation/) which includes a [GitLab image for Docker](https://gitlab.com/gitlab-org/gitlab-ce/tree/master/docker).
 
+Build the application using the following command
+```
+docker-compose -f docker-compose.yml up -d --build
+```
+
 ## License and Support
 ### Apache 2.0 License
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)  
