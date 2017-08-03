@@ -1,0 +1,32 @@
+redis:
+  image: redis:3.2.10-alpine
+  container_name: redis_gitlab
+  ports:
+    - "6379:6379"
+
+db:
+  image: postgres:10-alpine
+  container_name: postgres_gitlab
+  environment:
+        POSTGRES_USER: gitlab
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: gitlabhq_production
+  ports:
+    - "5432:5432"
+
+gitlab:
+  build: .
+  dockerfile: Dockerfile
+  container_name: app_gitlab
+  environment:
+    DATABASE_URL: postgres://gitlab:password@db:5432/gitlabhq_production
+    HEROKU: 'true'
+    RAILS_ENV: production
+    SECRET_KEY_BASE: foobar
+    SESSION_STORE: active_record_store
+  ports:
+    - "80:80"
+    - "443:443"
+  links:
+    - redis
+    - db
