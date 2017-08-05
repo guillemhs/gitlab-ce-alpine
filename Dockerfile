@@ -25,16 +25,16 @@ RUN apk --no-cache add nodejs nodejs-npm && npm install npm@latest -g && npm ins
 
 # Download GitLab
 RUN mkdir /home/git
-RUN git clone https://gitlab.com/gitlab-org/gitlab-ce.git /home/git/gitlab
 RUN gem install bundler --version "1.15.3"
-COPY entrypoint.sh /home/git/gitlab
+
 
 #Settings Timezone
 RUN cp /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 RUN echo "Europe/Brussels" >  /etc/timezone
 
+RUN git clone https://gitlab.com/gitlab-org/gitlab-ce.git /home/git/gitlab
+COPY entrypoint.sh /home/git
 RUN git clone https://gitlab.com/gitlab-org/gitaly.git /home/git/gitaly
-
 RUN git clone https://gitlab.com/gitlab-org/gitlab-shell.git /home/git/gitlab-shell
 WORKDIR /home/git/gitlab-shell
 RUN mv config.yml.example config.yml
@@ -113,4 +113,4 @@ RUN git config --global repack.writeBitmaps true
 COPY GemfileLocal /home/git/gitlab
 RUN bundle install --gemfile GemfileLocal
 
-ENTRYPOINT ["/home/git/gitlab/entrypoint.sh"]
+ENTRYPOINT ["/home/git/entrypoint.sh"]
